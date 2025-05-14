@@ -16,10 +16,10 @@ st.markdown("""
             white-space: nowrap; /* Prevent wrapping */
         }
         /* Ensure columns and content don't wrap */
-        block-container {
-            display: flex; 
-            flex-wrap: nowrap; /* Disable wrapping */
-        }
+            block-container {
+                display: flex; 
+                flex-wrap: nowrap; /* Disable wrapping */
+            }
         stApp {
             background-color: #E0F7FA;
         }
