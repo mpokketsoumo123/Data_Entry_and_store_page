@@ -12,6 +12,17 @@ st.markdown("""
         body {
             background-color: #E0F7FA;
         }
+             .main {
+            overflow: auto; /* Enable scrolling */
+            width: 100vw; /* Set viewport width */
+            height: 100vh; /* Set viewport height */
+            white-space: nowrap; /* Prevent wrapping */
+        }
+        /* Ensure columns and content don't wrap */
+        .block-container {
+            display: flex; 
+            flex-wrap: nowrap; /* Disable wrapping */
+        }
         .stApp {
             background-color: #E0F7FA;
         }
