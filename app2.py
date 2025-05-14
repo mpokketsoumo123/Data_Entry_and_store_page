@@ -451,56 +451,65 @@ def user_dashboard(username):
     if not user_data.empty:
         render_styled_table(user_data)
 
-        selected_index = st.selectbox("Select row to update/delete (by index)", user_data.index.tolist())
-        action = st.selectbox("Action", ["Update", "Delete"])
+        if "show_edit_controls" not in st.session_state:
+            st.session_state.show_edit_controls = False
 
-        # Define background color
-        action_color = {
-            "Update": "#c8e6c9",  # light green
-            "Delete": "#ffcdd2"  # light red
-        }
-        selected_color = action_color.get(action, "#ffffff")
-
-        # Use HTML block with style
-        with st.container():
-            st.markdown(
-                f"""
-                <div style="background-color:{selected_color}; padding: 10px; border-radius: 10px;">
-                    <label style="font-weight:bold;">Select row to update/delete (by index)</label><br>
-                    <div>{selected_index}</div>
-                    <br>
-                    <label style="font-weight:bold;">Action</label><br>
-                    <div>{action}</div>
-                </div>
-                """, unsafe_allow_html=True
-            )
-        if action == "Update":
-            co1, co2, co3 = st.columns(3)
-            with co2:
-                st.markdown('<div class="custom-label">Update Name:</div>', unsafe_allow_html=True)
-                updated_name = st.text_input("",value=user_data.loc[selected_index, 'Name'],key='Update name')
-                st.markdown('<div class="custom-label">Update Address:</div>', unsafe_allow_html=True)
-                updated_address = st.text_input("",value=user_data.loc[selected_index, 'Address'],key="Update address")
-                st.markdown('<div class="custom-label">Update Number:</div>', unsafe_allow_html=True)
-                updated_number = st.text_input("",value=user_data.loc[selected_index, 'Number'],key="Update number")
-                st.markdown('<div class="custom-label">Update Marka:</div>', unsafe_allow_html=True)
-                updated_marka = st.text_input("",value=user_data.loc[selected_index, 'Marka'],key='Update Marka')
-
-            if st.button("Update Now"):
-                df.loc[selected_index, 'Name'] = updated_name
-                df.loc[selected_index, 'Address'] = updated_address
-                df.loc[selected_index, 'Number'] = updated_number
-                df.loc[selected_index, 'Marka'] = updated_marka
-                save_user_input_data(df)
-                st.success("Updated Successfully!")
+        if not st.session_state.show_edit_controls:
+            if st.button("Click here to Update or Delete your data"):
+                st.session_state.show_edit_controls = True
                 st.rerun()
+        else:
+            selected_index = st.selectbox("Select row to update/delete (by index)", user_data.index.tolist())
+            action = st.selectbox("Action", ["Update", "Delete"])
 
-        if action == "Delete":
-            if st.button("Delete Now"):
-                df = df.drop(index=selected_index)
-                save_user_input_data(df)
-                st.success("Deleted Successfully!")
-                st.rerun()
+            # Define background color
+            action_color = {
+                "Update": "#c8e6c9",  # light green
+                "Delete": "#ffcdd2"   # light red
+            }
+            selected_color = action_color.get(action, "#ffffff")
+
+            # Show colored box
+            with st.container():
+                st.markdown(
+                    f"""
+                    <div style="background-color:{selected_color}; padding: 10px; border-radius: 10px;">
+                        <label style="font-weight:bold;">Selected Row Index:</label><br>
+                        <div>{selected_index}</div>
+                        <br>
+                        <label style="font-weight:bold;">Selected Action:</label><br>
+                        <div>{action}</div>
+                    </div>
+                    """, unsafe_allow_html=True
+                )
+
+            if action == "Update":
+                co1, co2, co3 = st.columns(3)
+                with co2:
+                    st.markdown('<div class="custom-label">Update Name:</div>', unsafe_allow_html=True)
+                    updated_name = st.text_input("", value=user_data.loc[selected_index, 'Name'], key='Update name')
+                    st.markdown('<div class="custom-label">Update Address:</div>', unsafe_allow_html=True)
+                    updated_address = st.text_input("", value=user_data.loc[selected_index, 'Address'], key="Update address")
+                    st.markdown('<div class="custom-label">Update Number:</div>', unsafe_allow_html=True)
+                    updated_number = st.text_input("", value=user_data.loc[selected_index, 'Number'], key="Update number")
+                    st.markdown('<div class="custom-label">Update Marka:</div>', unsafe_allow_html=True)
+                    updated_marka = st.text_input("", value=user_data.loc[selected_index, 'Marka'], key='Update Marka')
+
+                if st.button("Update Now"):
+                    df.loc[selected_index, 'Name'] = updated_name
+                    df.loc[selected_index, 'Address'] = updated_address
+                    df.loc[selected_index, 'Number'] = updated_number
+                    df.loc[selected_index, 'Marka'] = updated_marka
+                    save_user_input_data(df)
+                    st.success("Updated Successfully!")
+                    st.rerun()
+
+            if action == "Delete":
+                if st.button("Delete Now"):
+                    df = df.drop(index=selected_index)
+                    save_user_input_data(df)
+                    st.success("Deleted Successfully!")
+                    st.rerun()
     else:
         st.info("No data submitted yet.")
 
