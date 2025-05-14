@@ -9,20 +9,15 @@ st.set_page_config(page_title="User Portal", page_icon=":rocket:", layout="wide"
 # Add custom CSS for styling
 st.markdown("""
     <style>
-        main {
-            overflow: auto; /* Enable scrolling */
-            width: 100vw; /* Set viewport width */
-            height: 100vh; /* Set viewport height */
-            white-space: nowrap; /* Prevent wrapping */
-        }
-        /* Ensure columns and content don't wrap */
-            block-container {
-                display: flex; 
-                flex-wrap: nowrap; /* Disable wrapping */
-            }
-        stApp {
+        /* Set background for the whole page */
+        body, .stApp {
             background-color: #E0F7FA;
+            margin: 0 auto;
+            max-width: 1200px;  /* keeps the layout centered and readable */
+            padding: 10px;
         }
+        
+        /* Header & Footer */
         header {
             background-color: #0288D1;
             color: white;
@@ -38,21 +33,32 @@ st.markdown("""
             padding: 8px;
             text-align: center;
             position: fixed;
-            width: 90%;
+            left: 0;
+            right: 0;
             bottom: 0;
             font-size: 16px;
             border-radius: 5px;
+            z-index: 999;
         }
+        
+        /* Heading styles */
         h1, h2, h3 {
             text-align: center;
             color: #01579B;
         }
-        label, .stTextInput>label, .stNumberInput>label, .stSelectbox>label {
+        
+        /* Label styling */
+        label, .stTextInput > label, .stNumberInput > label, .stSelectbox > label {
             font-weight: bold;
             color: #01579B;
             font-size: 18px;
         }
-        .stTextInput>div>div>input, .stNumberInput>div>div>input {
+        
+        /* Input fields */
+        .stTextInput > div > div > input,
+        .stNumberInput > div > div > input,
+        textarea {
+            width: 100% !important;
             background-color: #ffffff;
             border: 2px solid #0288D1;
             border-radius: 8px;
@@ -60,62 +66,68 @@ st.markdown("""
             font-size: 20px;
             color: #000000;
         }
+        
+        /* Center buttons */
         .stButton {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
+        
+        /* Custom labels */
         .custom-label {
-        font-size: 20px; /* Adjust font size */
-        font-weight: bold; /* Optional: Make it bold */
-        color: #00000; /* Optional: Change text color */
-        margin-bottom: 0px; /* Reduce spacing below the label */
+            font-size: 20px;
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 5px;
         }
-        .stButton>button {
-            background-color: #0288D1;
-            color: white;
+        
+        /* Button styles */
+        .stButton > button {
+            background-color: #0288D1 !important;
+            color: white !important;
             font-weight: bold;
             border-radius: 8px;
             padding: 20px 50px;
-            font-size: 40px;
+            font-size: 24px !important;
+            width: 100%;
         }
-        .stButton>button:hover {
-            background-color: #0277BD;
+        .stButton > button:hover {
+            background-color: #0277BD !important;
         }
-
-        /* Change background color */
-        .stApp {
-                background-color: #f5f5f5; /* Light gray */
-        }
-                    
-        /* Table styling */
+        
+        /* Table scroll */
         .scrollable-table {
-                max-height: 800px;
-                overflow-y: auto;
-                border: 1px solid #ddd;
-                width: 100%;
+            max-height: 800px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            width: 100%;
         }
+        
+        /* Table design */
         .styled-table {
             border-collapse: collapse;
             width: 100%;
             font-size: 14px;
-            text-align: left;
-            background-color: #FFFFFF; /* Light gray background */
+            text-align: center;
+            background-color: #FFFFFF;
         }
-        .styled-table th, .styled-table td {
-            border: 1px solid #000000;
-            padding: 8px;
-            white-space: nowrap; /* Prevent text wrapping */
+        .styled-table th,
+        .styled-table td {
+            border: 2px solid #0288D1 !important;
+            padding: 10px !important;
+            white-space: nowrap;
         }
+        
+        /* Table header */
         .styled-table th {
             background-color: #009879;
             color: white;
         }
         
-                
-        /* Custom form styling */
+        /* Form styling */
         .stForm {
-            background-color: #ADD8E6; /* Light blue */
+            background-color: #ADD8E6;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -125,51 +137,33 @@ st.markdown("""
             font-size: 30px;
             font-weight: bold;
             margin-bottom: 20px;
-            color: #333333; /* Dark gray */
+            color: #333333;
         }
-        .custom-label {
-            font-size: 20px;
-            margin-bottom: 0px;
-            color: #333333; /* Dark gray */
-        }
-        /* Radio button styling */
+        
+        /* Radio buttons */
         .stRadio > label {
-            font-size: 25px; /* Larger text */
+            font-size: 20px;
             font-weight: bold;
         }
         .stRadio div[role="radio"] {
-            transform: scale(10); /* Increase button size */
-            margin-right: 15px; /* Space between buttons */
+            transform: scale(1.2);
+            margin-right: 15px;
         }
-
-        .stButton > button {
-            background-color: #1E90FF !important; /* Dodger blue */
-            color: white !important;
-            font-size: 24px !important;
-            padding: 30px 40px !important;
-            border-radius: 8px;
-            border: none;
-        }
-        .stButton > button:hover {
-            background-color: #0059b3 !important; /* Darker blue on hover */
-        }
+        
+        /* Form buttons */
         .stForm button {
-            background-color: #FFD700 !important; /* Dodger blue */
+            background-color: #FFD700 !important;
             color: black !important;
-            font-size: 24px !important; /* Larger button text */
-            padding: 20px 30px !important; /* Increased button size */
+            font-size: 20px !important;
+            padding: 15px 30px !important;
             border-radius: 8px;
             border: none;
             font-weight: bold;
         }
         .stForm button:hover {
-            background-color: #DAA520 !important; /* Darker blue on hover */
+            background-color: #DAA520 !important;
         }
-        .styled-table td, .styled-table th {
-            border: 2px solid #0288D1 !important;
-            text-align: center !important;
-            padding: 10px !important;
-        }
+
     </style>
 """, unsafe_allow_html=True)
 
