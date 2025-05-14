@@ -11,8 +11,8 @@ st.markdown("""
     <style>
         main {
             overflow: auto; /* Enable scrolling */
-            width: auto; /* Set viewport width */
-            height: auto; /* Set viewport height */
+            width: 100vw; /* Set viewport width */
+            height: 100vh; /* Set viewport height */
             white-space: nowrap; /* Prevent wrapping */
         }
         /* Ensure columns and content don't wrap */
