@@ -14,8 +14,8 @@ st.markdown("""
         }
              .main {
             overflow: auto; /* Enable scrolling */
-            width: 300vw; /* Set viewport width */
-            height: 100vh; /* Set viewport height */
+            width: auto; /* Set viewport width */
+            height: auto; /* Set viewport height */
             white-space: nowrap; /* Prevent wrapping */
         }
         /* Ensure columns and content don't wrap */
