@@ -9,21 +9,18 @@ st.set_page_config(page_title="User Portal", page_icon=":rocket:", layout="wide"
 # Add custom CSS for styling
 st.markdown("""
     <style>
-        body {
-            background-color: #E0F7FA;
-        }
-             .main {
+        main {
             overflow: auto; /* Enable scrolling */
             width: auto; /* Set viewport width */
             height: auto; /* Set viewport height */
             white-space: nowrap; /* Prevent wrapping */
         }
         /* Ensure columns and content don't wrap */
-        .block-container {
+        block-container {
             display: flex; 
             flex-wrap: nowrap; /* Disable wrapping */
         }
-        .stApp {
+        stApp {
             background-color: #E0F7FA;
         }
         header {
