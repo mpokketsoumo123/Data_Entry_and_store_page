@@ -448,7 +448,7 @@ def user_dashboard(username):
 
     st.subheader("Your Submitted Data")
     user_data = df[df['Username'] == username]
-    user_data.insert(0, "ID", user_data.index)
+    user_data.insert(0, "Sl No", range(1, len(user_data) + 1))
 
     if not user_data.empty:
         render_styled_table(user_data)
