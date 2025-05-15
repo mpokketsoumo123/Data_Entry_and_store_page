@@ -79,7 +79,7 @@ st.markdown("""
             font-size: 20px;
             font-weight: bold;
             color: #333333;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
         
         /* Button styles */
